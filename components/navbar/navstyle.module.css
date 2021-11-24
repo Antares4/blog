@@ -1,5 +1,4 @@
 .nav{
-    display: flex;
+    display: block;
     justify-content: space-around;
-    color:red;
 }

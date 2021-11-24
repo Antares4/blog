@@ -2,21 +2,24 @@ import React from 'react'
 import Link from 'next/link'
 import styles from './navstyle.module.css'
 
-interface Props {
-    
-}
 
-export const Nav = (props: Props) => {
+export const Nav = (props) => {
     return (
         <nav className={styles.nav}>
-            <Link href="/home">
-                <a>home</a>
-            </Link>
-            <Link href="/blogs">
-                <a>Blog</a>
-            </Link>
-            <div>About</div>
-            <div>Contact</div>
+            <ul>
+                <li>            
+                    <Link href="/create"><a>create</a></Link>
+                </li>
+                <li>
+                    <Link href="/blogs"><a>Blog</a></Link>
+                </li>
+                <li>
+                    <div>About</div>
+                </li>
+                <li>
+                    <div>Contact</div>
+                </li>
+            </ul>
         </nav>
     )
 }

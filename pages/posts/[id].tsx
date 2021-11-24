@@ -19,21 +19,5 @@ const article = () => {
         </div>
     )
 }
-// export const getServerSideProps : GetServerSideProps = async (context) => { 
-//     var returnedPosts:Blogs[] = []
-//     const response = await fetch(`http://localhost:5000/posts/${context.params.id}`).then(response => response.json()).then(
-//         data => {
-//           if(data.hasOwnProperty("items")){
-//             if(Array.isArray(data.items)){
-//                 returnedPosts = data.items;
-//             }
-//           }
-//         }
-//       )
-//     return {
-//       props: {returnedPosts}
-//   };
-// }
-
 
 export default article
