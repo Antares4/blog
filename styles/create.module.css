@@ -1,0 +1,38 @@
+.createContainer{
+    height: 100%;
+    width: 50%;
+    display: block;
+    
+}
+.prompt{
+    margin: auto;
+    background-color:rgb(248, 230, 230);
+    color: rgb(106, 122, 136);
+    height: 10vh;
+}
+.prompt p{
+    padding: 6px 0px 0px 10px;
+}
+.add{
+    display: flex;
+    justify-content: space-around;
+    padding: 40px;
+}
+.edit{
+    width: auto;
+}
+.button{
+    justify-content: center;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    display: inline-flex;
+    height: 5ch;
+    width: 10ch;
+    align-items: center;
+    cursor: pointer;
+    color: white;
+    background-color: rgb(34, 34, 34);
+    box-shadow: 0px 1px 2px 1px rgb(43, 41, 38);
+}

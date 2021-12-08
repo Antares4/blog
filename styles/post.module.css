@@ -1,0 +1,27 @@
+.card{
+    background-color: aliceblue;
+    margin: 2% 10%;
+    opacity: 90%;
+    display: block;
+    text-align: center;
+}
+.cardtitle{
+    padding-top: 30px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-style: italic;
+    justify-self:center;
+    text-align: center;
+}
+.cardbody{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    min-height: 40%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.cardLink{
+    background-color: rgb(0, 168, 197);
+    padding:12px 30px;
+
+}

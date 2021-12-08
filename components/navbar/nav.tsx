@@ -8,7 +8,7 @@ export const Nav = (props) => {
         <nav className={styles.nav}>
             <ul>
                 <li>            
-                    <Link href="/create"><a>create</a></Link>
+                    <Link href="/create"><a>New</a></Link>
                 </li>
                 <li>
                     <Link href="/blogs"><a>Blog</a></Link>
@@ -17,7 +17,7 @@ export const Nav = (props) => {
                     <div>About</div>
                 </li>
                 <li>
-                    <div>Contact</div>
+                    <div>LogIn</div>
                 </li>
             </ul>
         </nav>

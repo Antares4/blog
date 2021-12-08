@@ -3,6 +3,7 @@ import {GetStaticProps} from 'next'
 import type { ReactElement } from 'react'
 import Layout from '../components/layout'
 import Image from '../components/image/image'
+import style from '../styles/create.module.css'
 interface Props {
 
 }
@@ -14,8 +15,10 @@ interface imageUrlType {
 }
 interface comp {
   id:number,
-  type:'image'|'paragraph'|'code',
-  imageId?:number
+  type:'image'|'paragraph',
+  imageId?:number,
+  imgUrl?:string
+  content?:string
 }
 //click to add component for blog
 const Create = (props: Props) => {
@@ -23,11 +26,42 @@ const Create = (props: Props) => {
     const [components,setComponents] = useState<Array<comp>>([])
     const [imageId,setImageId] = useState<Array<number>>([])
     const [uploaded,setUpload] = useState<Array<boolean>>([])
-    const save=async()=>{
-      console.log(pics)
-      console.log(components)
+    const axios = require('axios').default;
+    const config = {
+      headers: { "X-Requested-With": "XMLHttpRequest" },
+    };
+    const save= async ()=>{
+
+      var newComponents:comp[] = []
+      for(let i = 0; i < pics.length; i++){ 
+        for(let j = 0; i < components.length; i++){
+          if(pics[i].id === components[j].imageId){
+            const form = new FormData()
+            console.log(pics[i].file)
+            form.append("upload_preset","wenj7b34")
+            form.append("tags", "browser_upload")
+            form.append("file",pics[i].file)
+            const response = await axios.post("https://api.cloudinary.com/v1_1/duubnxp15/image/upload",form,config).then(response=>{         
+            newComponents.push({...components[j],imgUrl:response.data.secure_url})
+            console.log(newComponents)
+          })
+          
+          }
+          else {
+            console.log("out")
+            newComponents.push(components[j])
+          }
+        }
+      }
+      setComponents(newComponents)
+      const response = await axios.post(`http://localhost:5000/archives`,components).then(response=>{
+        console.log(response.data)
+      })
     }
-    const ImageCallback = (id:number,imageUrl:string,file:any) =>{ 
+    const handleChange = (id,e)=>{
+      components[id].content = e.target.value
+    }
+    const ImageCallback = (id:number,imageUrl:string,file:any) =>{
       setPics([...pics,{id,imageUrl,file}])
       let newArr = [...uploaded]
       newArr[id] = true
@@ -47,36 +81,29 @@ const Create = (props: Props) => {
       let newPara:comp = {id:thisId, type:'paragraph'}
       setComponents([...components,newPara])
     }
-    const createCodeArea = ():void =>{
-      let thisId = components.length>0?components[components.length-1].id+1:0
-      let newCode:comp = {id:thisId, type:'code'}
-      setComponents([...components,newCode])
-    }
 
     return (
-        <div id='createContainer'>
-          <div id='edit'>
+        <div className={style.createContainer}>
+          <div className={style.prompt}>
+            <p>Add content</p>
+          </div>
+          <div className={style.edit}>
             {components.map((item)=>{
                 if(item.type==='image'){
                   return(
                   <div key={item.id as any}>
                   <Image id={item.imageId as number} callback={ImageCallback}/>
-                  {uploaded[item.imageId as number]==true?<img src={pics[item.imageId as number].imageUrl} alt="upload" />:<div>none</div>}
+                  {uploaded[item.imageId as number]==true?<img src={pics[item.imageId as number].imageUrl} alt="upload" />:<></>}
                   </div>)
                 }
                 else if(item.type==='paragraph'){
-                  return(<div key={item.id}> <input type="textarea" placeholder='Edit'/></div>)
-                }
-                else if(item.type==='code'){
-                  return(<div key={item.id}> <input type="textarea" placeholder='Edit'/></div>)
+                  return(<div key={item.id}> <input type="textarea" placeholder='Edit' onChange={(e)=> handleChange(item.id,e)}/></div>)
                 }
               })}
-              
           </div>
-            <div className='extend'>
-                <button className='button dark' onClick={createImageArea}>Add image</button>
-                <button className='button dark' onClick={createParagraphArea}>Add Paragraph</button>
-                <button className='button dark' onClick={createCodeArea}>Add Code</button>
+            <div className={style.add}>
+                <button className={style.button} onClick={createImageArea}>Add image</button>
+                <button className={style.button} onClick={createParagraphArea}>Add Paragraph</button>
             </div>
             <div ><button id='save' onClick={save}>SAVE</button></div>
         </div>
@@ -90,22 +117,4 @@ Create.getLayout = function getLayout(page: ReactElement) {
       </Layout>
     )
   }
-export const getStaticProps: GetStaticProps = async () => { 
-    var returnedPosts = null;
-    const response = await fetch('http://localhost:5000/posts').then(response => response.json()).then(
-        data => {
-          if(data.hasOwnProperty("items")){
-            if(Array.isArray(data.items)){
-                returnedPosts = data.items;
-            }
-          }
-          else{
-              console.log("fail")
-          }
-        }
-      ).catch(error => console.log(error.message));
-    return {
-      props: {returnedPosts}
-  };
-}
 export default Create

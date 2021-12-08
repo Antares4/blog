@@ -1,14 +1,13 @@
 import React from 'react'
 import Nav from './navbar/nav'
+import style from '../styles/Home.module.css'
 const layout = ({children}) => {
     return (
         <>
             <Nav/>
-            <div>
-                <main>
+                <main className={style.main}>
                     {children}
                 </main>
-            </div>
         </>
     )
 }

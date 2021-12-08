@@ -1,8 +1,8 @@
 
-interface Blogs{
+export interface PostType {
     id:number,
-    title:string,
-    content:string,
-    date: Date
+    Header:string,
+    Body:string,
+    date:Date
 }
-export default Blogs
+
